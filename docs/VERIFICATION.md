@@ -23,9 +23,13 @@ Tested on Windows with Node 24.18 and the Chromium-based in-app browser. This re
 
 ## Offline evidence and limits
 
-After a successful search and cache preparation, the preview server was stopped. The browser reloaded the production app and successfully performed another semantic search, returning the bread story. This verifies app-shell recovery when the application origin is unavailable.
+After a successful search and cache preparation, the preview server was stopped. The browser reloaded the production app and successfully performed another semantic search. A stronger follow-up used a test-only service worker that rejects same-origin network fetches and cross-origin requests, while leaving the production app's cache fallback intact. An independent external fetch probe failed, then the app was reloaded to create a fresh AI worker.
 
-The external internet connection was **not disabled** in this check. Therefore complete network-off operation, browser cache eviction, and all browser/device combinations are not claimed as tested. Model caching is implemented by Transformers.js and requires a completed model download. Storage remains local and unencrypted; exported backups are essential.
+That stronger check initially failed: Transformers.js 4.3.2's `get_tokenizer_files` calls its metadata helper without forwarding the selected revision. It probed `resolve/main/tokenizer_config.json`, while actual tokenizer files were cached under the pinned revision. The single-model worker now pins `env.remotePathTemplate` too, so the metadata probe and downloads resolve to the same immutable URL and cache entry. No node_modules patch or fake response is used.
+
+After the fix, the reloaded app returned the expected bread story and passed all five related-query and three unrelated-query browser checks with requests blocked. The test harness does not change operating-system connectivity, so this is controlled request-failure evidence, not a claim that every device or browser was tested. Browser cache eviction still requires a new download. Storage remains local and unencrypted; exported backups are essential.
+
+To reproduce: run `npm run build`, then `node scripts/check-offline.mjs` and open the printed `/qa.html` URL. Run one AI search in the app while online, select **Block network** and **Probe external network** in the control tab, reload the app, and search again. The probe must report **External fetch blocked**. Select **Restore network** before closing the tabs and stopping the server. Supply a different port as the script's first argument for a fresh browser storage origin. The harness copies `dist/` to a temporary directory and injects faults only into that copy; it is never deployed.
 
 ## Release status
 

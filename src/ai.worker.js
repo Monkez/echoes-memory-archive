@@ -12,6 +12,10 @@ import { chunksFor, rankChunks, validateArchive } from "./core.js";
 
 env.allowLocalModels = false;
 env.useBrowserCache = true;
+// Transformers.js 4.3.2's tokenizer metadata probe omits the pipeline revision.
+// This single-model worker must use the same immutable URL/cache key for that
+// probe and the actual tokenizer files, including on a fresh offline startup.
+env.remotePathTemplate = `{model}/resolve/${MODEL_REVISION}/`;
 env.backends.onnx.wasm.numThreads = 1;
 env.backends.onnx.wasm.wasmPaths = { wasm: wasmURL, mjs: factoryURL };
 let extractor,
