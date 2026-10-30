@@ -12,4 +12,4 @@ Browser-local memory archive for the DEV Hacktoberfest Week 4 challenge (2026).
 - Do not upload archive contents, add analytics, or embed credentials. Public demo data is explicitly fictional.
 - Export/import must be lossless and reject invalid archives before replacing data.
 - Keep AI status honest; lexical fallback must be labeled. No fabricated metrics or testimonials.
-- Read `agents/STATUS.md` before continuing. Competition submission is incomplete until published and verified.
+- Read local `agents/STATUS.md` when present; private execution notes are not part of the public source. Competition submission is incomplete until published and verified.

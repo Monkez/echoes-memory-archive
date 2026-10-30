@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#f7f8fb" />
+    <meta
+      name="description"
+      content="Keep family stories in their own words. Find them by meaning with open AI running in your browser."
+    />
+    <link rel="icon" href="/echo.svg" />
+    <title>Echoes — The stories we keep</title>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to memories</a>
+    <div id="app"></div>
+    <dialog id="modal" aria-labelledby="modal-title"></dialog>
+    <div id="toast" role="status" aria-live="polite"></div>
+    <input
+      id="import-file"
+      type="file"
+      accept=".json,application/json"
+      hidden
+    />
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
