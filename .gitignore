@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.cache/
+.openai/local/
+test-results/
+*.log
+.env*
+!.env.example
+# Local execution context includes private business planning, not public product source.
+agents/
